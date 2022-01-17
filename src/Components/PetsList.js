@@ -1,7 +1,16 @@
-import PetItem from './PetItem';
+import PetItem from "./PetItem";
+import React, { useState } from "react";
 
 export default function PetsList(props) {
-  const pets = props.pets.map((pet) => <PetItem key={pet.id} pet={pet} />);
+  const [query, setquery] = useState("");
+
+  const pets = props.pets
+    .filter((pet) => pet.name.toLowerCase().includes(query.toLowerCase()))
+    .map((pet) => <PetItem key={pet.id} pet={pet} />);
+
+  const changQuery = (event) => {
+    setquery(event.target.value);
+  };
   return (
     <section id="doctors" class="doctor-section pt-140">
       <div class="container">
@@ -13,6 +22,7 @@ export default function PetsList(props) {
               </h1>
               <div class="input-group rounded">
                 <input
+                  onChange={changQuery}
                   type="search"
                   class="form-control rounded"
                   placeholder="Search"
